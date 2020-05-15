@@ -5,10 +5,16 @@
  */
 package model;
 
+import java.util.Date;
+
 /**
  *
  * @author Marcelo
  */
-public class ContaCorrente extends Conta{
-    
+public class ContaCorrente extends Conta {
+
+    public ContaCorrente(int id, Cliente cliente, Date dataCriacao, double saldo, boolean ativa) {
+        super(id, cliente, dataCriacao, saldo, ativa);
+    }
+
 }

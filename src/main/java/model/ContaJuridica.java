@@ -5,10 +5,16 @@
  */
 package model;
 
+import java.util.Date;
+
 /**
  *
  * @author Marcelo
  */
-public class ContaJuridica extends Conta{
-    
+public class ContaJuridica extends Conta {
+
+    public ContaJuridica(int id, Cliente cliente, Date dataCriacao, double saldo, boolean ativa) {
+        super(id, cliente, dataCriacao, saldo, ativa);
+    }
+
 }
