@@ -1,0 +1,49 @@
+CREATE TABLE conta_cpf(
+	id INT AUTO_INCREMENT,
+	titular VARCHAR(30) NOT NULL,
+	cpf VARCHAR(11) UNIQUE NOT NULL,
+	email VARCHAR(50) UNIQUE NOT NULL,
+	saldo DOUBLE NOT NULL,
+	data_criacao DATE NOT NULL,
+	ativo BOOLEAN NOT NULL,
+	
+	PRIMARY KEY (id)
+)
+
+CREATE TABLE conta_cnpj(
+	id INT AUTO_INCREMENT,
+	nome_fantasia VARCHAR(50) NOT NULL,
+	razao_social VARCHAR(50) NOT NULL,
+	ramo VARCHAR(50) NOT NULL,
+	cnpj VARCHAR(15) UNIQUE NOT NULL,
+	email VARCHAR(50) UNIQUE NOT NULL,
+	saldo DOUBLE NOT NULL,
+	data_criacao DATE NOT NULL,
+	ativo BOOLEAN NOT NULL,
+	
+	PRIMARY KEY (id)
+)
+
+CREATE TABLE transacoes_cpf(
+	id INT AUTO_INCREMENT,
+	id_conta INT NOT NULL,
+	data DATE NOT NULL,
+	operacao VARCHAR(30) NOT NULL,
+	valor_anterior DOUBLE NOT NULL,
+	valor_apos DOUBLE NOT NULL,
+
+	PRIMARY KEY (id),
+	FOREIGN KEY (id_conta) REFERENCES conta_cpf (id)
+)
+
+CREATE TABLE transacoes_cnpj(
+	id INT AUTO_INCREMENT,
+	id_conta INT NOT NULL,
+	data DATE NOT NULL,
+	operacao VARCHAR(30) NOT NULL,
+	valor_anterior DOUBLE NOT NULL,
+	valor_apos DOUBLE NOT NULL,
+
+	PRIMARY KEY (id),
+	FOREIGN KEY (id_conta) REFERENCES conta_cnpj (id)
+)
