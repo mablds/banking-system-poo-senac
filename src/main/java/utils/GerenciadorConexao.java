@@ -27,9 +27,9 @@ public class GerenciadorConexao {
 
         String DRIVER = "com.mysql.cj.jdbc.Driver";
 
-        String USER = "";
-        String PASSWORD = "";
-        String URL = "";
+        String USER = Env.USER;
+        String PASSWORD = Env.PASSWORD;
+        String URL = Env.URL;
 
         if (CONEXAO == null) {
             try {

@@ -3,32 +3,31 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package DTO;
 
 /**
  *
- * @author Marcelo
+ * @author Sakemi
  */
-public abstract class Cliente {
+public class ClienteDTO {
 
     private int id;
+    private String registro;
+    private String nome;
+    private String telefone;
     private String email;
     private String endereco;
-    private String telefone;
+    private int tipo;
     private boolean ativo;
 
-    public Cliente(int id, String email, String endereco, String telefone, boolean ativo) {
+    public ClienteDTO(int id, String registro, String nome, String telefone, String email, String endereco, int tipo, boolean ativo) {
         this.id = id;
+        this.registro = registro;
+        this.nome = nome;
+        this.telefone = telefone;
         this.email = email;
         this.endereco = endereco;
-        this.telefone = telefone;
-        this.ativo = ativo;
-    }
-
-    public Cliente(String email, String endereco, String telefone, boolean ativo) {
-        this.email = email;
-        this.endereco = endereco;
-        this.telefone = telefone;
+        this.tipo = tipo;
         this.ativo = ativo;
     }
 
@@ -38,6 +37,30 @@ public abstract class Cliente {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getRegistro() {
+        return registro;
+    }
+
+    public void setRegistro(String registro) {
+        this.registro = registro;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 
     public String getEmail() {
@@ -56,12 +79,12 @@ public abstract class Cliente {
         this.endereco = endereco;
     }
 
-    public String getTelefone() {
-        return telefone;
+    public int getTipo() {
+        return tipo;
     }
 
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
     }
 
     public boolean isAtivo() {
