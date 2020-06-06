@@ -17,4 +17,9 @@ public class ContaPoupanca extends Conta {
         super(id, cliente, dataCriacao, saldo, ativa);
     }
 
+    public boolean Resgate(double valor, int idReceptor) {
+
+        return true;
+    }
+
 }

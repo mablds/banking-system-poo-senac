@@ -17,6 +17,13 @@ public abstract class Cliente {
     private int telefone;
     private boolean ativo;
 
+    public Cliente(String email, String endereco, int telefone, boolean ativo) {
+        this.email = email;
+        this.endereco = endereco;
+        this.telefone = telefone;
+        this.ativo = ativo;
+    }
+
     public Cliente(int id, String email, String endereco, int telefone, boolean ativo) {
         this.id = id;
         this.email = email;
