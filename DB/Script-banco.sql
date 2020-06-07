@@ -47,6 +47,16 @@ CREATE TABLE cobrancas (
     FOREIGN KEY(receptor) REFERENCES clientes(id)
 );
 
+CREATE TABLE credenciais (
+	id INT AUTO_INCREMENT,
+    id_cliente INT NOT NULL,
+    usuario VARCHAR(50) NOT NULL,
+    senha VARCHAR(255) NOT NULL
+    
+    PRIMARY KEY(id),
+    FOREIGN KEY(id_cliente) REFERENCES clientes(id)
+);
+
 INSERT INTO clientes (registro, nome, telefone, email, endereco, tipo, ativo)
 VALUES
 ("12345678911", "Arthur Sakemi", "912341234", "arthur@mail.com", "Rua rua, 100", 1, true),
