@@ -12,7 +12,6 @@ package utils;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import io.github.cdimascio.dotenv.Dotenv;
 
 public class GerenciadorConexao {
 
@@ -26,14 +25,11 @@ public class GerenciadorConexao {
 
     public static Connection abrirConexao() throws ClassNotFoundException, SQLException {
 
-        Dotenv dotenv = Dotenv.load();
-
         String DRIVER = "com.mysql.cj.jdbc.Driver";
 
-        String USER = dotenv.get("USER");
-        String PASSWORD = dotenv.get("PASSWORD");
-
-        String URL = dotenv.get("CONNECTION_STRING");
+        String USER = Env.USER;
+        String PASSWORD = Env.PASSWORD;
+        String URL = Env.URL;
 
         if (CONEXAO == null) {
             try {

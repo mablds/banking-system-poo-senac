@@ -5,8 +5,6 @@
  */
 package model;
 
-import java.util.Date;
-
 /**
  *
  * @author Marcelo
@@ -14,18 +12,18 @@ import java.util.Date;
 public class PessoaFisica extends Cliente {
 
     private String nome;
-    private Date nascimento;
-    private String genero;
     private String cpf;
-    private String rg;
 
-    public PessoaFisica(String nome, Date nascimento, String genero, String cpf, String rg, int id, String email, String endereco, int telefone, boolean ativo) {
+    public PessoaFisica(String nome, String cpf, String email, String endereco, String telefone, boolean ativo) {
+        super(email, endereco, telefone, ativo);
+        this.nome = nome;
+        this.cpf = cpf;
+    }
+
+    public PessoaFisica(String nome, String cpf, int id, String email, String endereco, String telefone, boolean ativo) {
         super(id, email, endereco, telefone, ativo);
         this.nome = nome;
-        this.nascimento = nascimento;
-        this.genero = genero;
         this.cpf = cpf;
-        this.rg = rg;
     }
 
     public String getNome() {
@@ -36,36 +34,12 @@ public class PessoaFisica extends Cliente {
         this.nome = nome;
     }
 
-    public Date getNascimento() {
-        return nascimento;
-    }
-
-    public void setNascimento(Date nascimento) {
-        this.nascimento = nascimento;
-    }
-
-    public String getGenero() {
-        return genero;
-    }
-
-    public void setGenero(String genero) {
-        this.genero = genero;
-    }
-
     public String getCpf() {
         return cpf;
     }
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
-    }
-
-    public String getRg() {
-        return rg;
-    }
-
-    public void setRg(String rg) {
-        this.rg = rg;
     }
 
 }

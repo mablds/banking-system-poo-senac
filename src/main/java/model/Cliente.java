@@ -14,10 +14,10 @@ public abstract class Cliente {
     private int id;
     private String email;
     private String endereco;
-    private int telefone;
+    private String telefone;
     private boolean ativo;
 
-    public Cliente(int id, String email, String endereco, int telefone, boolean ativo) {
+    public Cliente(int id, String email, String endereco, String telefone, boolean ativo) {
         this.id = id;
         this.email = email;
         this.endereco = endereco;
@@ -25,11 +25,10 @@ public abstract class Cliente {
         this.ativo = ativo;
     }
 
-    public boolean isAtivo() {
-        return ativo;
-    }
-
-    public void setAtivo(boolean ativo) {
+    public Cliente(String email, String endereco, String telefone, boolean ativo) {
+        this.email = email;
+        this.endereco = endereco;
+        this.telefone = telefone;
         this.ativo = ativo;
     }
 
@@ -57,12 +56,20 @@ public abstract class Cliente {
         this.endereco = endereco;
     }
 
-    public int getTelefone() {
+    public String getTelefone() {
         return telefone;
     }
 
-    public void setTelefone(int telefone) {
+    public void setTelefone(String telefone) {
         this.telefone = telefone;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
     }
 
 }

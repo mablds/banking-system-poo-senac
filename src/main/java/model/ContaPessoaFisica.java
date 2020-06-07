@@ -11,9 +11,9 @@ import java.util.Date;
  *
  * @author Marcelo
  */
-public class ContaJuridica extends Conta implements Operacoes {
+public class ContaPessoaFisica extends Conta implements Operacoes {
 
-    public ContaJuridica(int id, Cliente cliente, Date dataCriacao, double saldo, boolean ativa) {
+    public ContaPessoaFisica(int id, Cliente cliente, Date dataCriacao, double saldo, boolean ativa) {
         super(id, cliente, dataCriacao, saldo, ativa);
     }
 
@@ -24,7 +24,7 @@ public class ContaJuridica extends Conta implements Operacoes {
 
     @Override
     public boolean pagar(Cobranca cobranca) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return true;
     }
 
 }
