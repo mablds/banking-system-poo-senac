@@ -11,14 +11,14 @@ package DTO;
  */
 public class ClienteDTO {
 
-    private int id;
-    private String registro;
-    private String nome;
-    private String telefone;
-    private String email;
-    private String endereco;
-    private int tipo;
-    private boolean ativo;
+    private final int id;
+    private final String registro;
+    private final String nome;
+    private final String telefone;
+    private final String email;
+    private final String endereco;
+    private final int tipo;
+    private final boolean ativo;
 
     public ClienteDTO(int id, String registro, String nome, String telefone, String email, String endereco, int tipo, boolean ativo) {
         this.id = id;
@@ -35,64 +35,32 @@ public class ClienteDTO {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getRegistro() {
         return registro;
-    }
-
-    public void setRegistro(String registro) {
-        this.registro = registro;
     }
 
     public String getNome() {
         return nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
     public String getTelefone() {
         return telefone;
-    }
-
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getEndereco() {
         return endereco;
-    }
-
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
     }
 
     public int getTipo() {
         return tipo;
     }
 
-    public void setTipo(int tipo) {
-        this.tipo = tipo;
-    }
-
     public boolean isAtivo() {
         return ativo;
-    }
-
-    public void setAtivo(boolean ativo) {
-        this.ativo = ativo;
     }
 
 }

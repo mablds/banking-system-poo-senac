@@ -5,7 +5,7 @@
  */
 package poo.simplebankpoo;
 
-import DAO.ClienteDAO;
+import DAO.ContasDAO;
 import DTO.ClienteDTO;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Sakemi
  */
 @RestController
-public class ClienteController {
+public class ContasController {
 
-    @GetMapping("/clientes")
-    public List<ClienteDTO> clientes() {
-        List clientes = ClienteDAO.listarClientes();
-        return clientes;
+    @GetMapping("/contas")
+    public List<ClienteDTO> contas() {
+        List contas = ContasDAO.listarContas();
+        return contas;
     }
 
 }
