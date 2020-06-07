@@ -4,8 +4,6 @@
  * and open the template in the editor.
  */
 package DAO;
-
-import DTO.ClienteDTO;
 import DTO.ContasDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
