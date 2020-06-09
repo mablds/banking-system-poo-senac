@@ -21,7 +21,7 @@ public class ClienteDTO {
     private final String email;
     private final String endereco;
     private final int tipo;
-    private final boolean ativo;
+    private boolean ativo;
 
     @JsonCreator
     public ClienteDTO(
@@ -46,6 +46,10 @@ public class ClienteDTO {
     
     public void setId(int id) {
         this.id = id;
+    }
+    
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
     }
 
     public int getId() {

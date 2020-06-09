@@ -9,6 +9,7 @@ import DAO.ClienteDAO;
 import DTO.ClienteDTO;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,6 +27,12 @@ public class ClienteController {
         List clientes = ClienteDAO.listarClientes();
         return clientes;
     }
+    
+    @GetMapping("/cliente/{id}")
+    public ClienteDTO cliente(@PathVariable int id) {
+        ClienteDTO cliente = ClienteDAO.buscarCliente(id);
+        return cliente;
+    }
 
     @PostMapping("/cliente/create")
     public ClienteDTO createCliente(@RequestBody ClienteDTO newCliente) {
@@ -37,5 +44,17 @@ public class ClienteController {
     public ClienteDTO updateCliente(@RequestBody ClienteDTO updateCliente) {
         ClienteDTO clienteUpdated = ClienteDAO.alterar(updateCliente);
         return clienteUpdated;
+    }
+    
+    @PutMapping("/cliente/delete") //Fizemos como PUT porque apenas iremos alterar a propriedade de ativo no banco para false.
+    public boolean deleteCliente(@RequestBody ClienteDTO deleteCliente) {
+        boolean clienteDeleted = ClienteDAO.deletar(deleteCliente);
+        return clienteDeleted;
+    }
+    
+    @PutMapping("/cliente/ativar") //Fizemos como PUT porque apenas iremos alterar a propriedade de ativo no banco para true.
+    public ClienteDTO ativarCliente(@RequestBody ClienteDTO ativeCliente) {
+        ClienteDTO clienteActivated = ClienteDAO.ativar(ativeCliente);
+        return clienteActivated;
     }
 }

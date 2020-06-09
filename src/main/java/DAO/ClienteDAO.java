@@ -110,6 +110,53 @@ public class ClienteDAO {
         return clientes;
     }
 
+    public static ClienteDTO buscarCliente(int id) {
+        Connection conexao = null;
+        PreparedStatement instrucaoSQL = null;
+        ClienteDTO clienteEncontrado = null;
+
+        try {
+            conexao = GerenciadorConexao.abrirConexao();
+            instrucaoSQL = conexao.prepareStatement("SELECT * FROM clientes WHERE id = ?;");
+            instrucaoSQL.setInt(1, id);
+
+            ResultSet rs = instrucaoSQL.executeQuery();
+            
+            while(rs.next()){
+                int idCliente = rs.getInt("id");
+                String registro = rs.getString("registro");
+                String nome = rs.getString("nome");
+                String telefone = rs.getString("telefone");
+                String email = rs.getString("email");
+                String endereco = rs.getString("endereco");
+                int tipo = rs.getInt("tipo");
+                boolean ativo = rs.getBoolean("ativo");
+                
+                clienteEncontrado = new ClienteDTO(idCliente, registro, nome, telefone, email, endereco, tipo, ativo);
+            }
+            
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (instrucaoSQL != null) {
+                    instrucaoSQL.close();
+                }
+                GerenciadorConexao.fecharConexao();
+            } catch (SQLException ex) {
+            } finally {
+                try {
+                    if (instrucaoSQL != null) {
+                        instrucaoSQL.close();
+                    }
+                    GerenciadorConexao.fecharConexao();
+                } catch (SQLException ex) {
+                }
+            }
+        }
+        return clienteEncontrado;
+    }
+    
     public static ClienteDTO alterar(ClienteDTO updateCliente) {
         Connection conexao = null;
         PreparedStatement instrucaoSQL = null;
@@ -144,5 +191,68 @@ public class ClienteDAO {
             }
         }
         return updateCliente;
+    }
+    
+    public static boolean deletar(ClienteDTO deleteCliente) {
+        Connection conexao = null;
+        PreparedStatement instrucaoSQL = null;
+        boolean retorno = false;
+        
+        try {
+            conexao = GerenciadorConexao.abrirConexao();
+            instrucaoSQL = conexao.prepareStatement("UPDATE clientes "
+                    + "SET ativo = false "
+                    + "WHERE id = ?;");
+
+            instrucaoSQL.setInt(1, deleteCliente.getId());
+                        
+            instrucaoSQL.executeUpdate();
+            
+            retorno = true;
+            
+        } catch (SQLException | ClassNotFoundException ex) {
+            System.out.println(ex.getMessage());
+            retorno = false;
+        } finally {
+            try {
+                if (instrucaoSQL != null) {
+                    instrucaoSQL.close();
+                }
+                GerenciadorConexao.fecharConexao();
+            } catch (SQLException ex) {
+            }
+        }
+        return retorno;
+    }
+    
+    public static ClienteDTO ativar(ClienteDTO ativeCliente) {
+        Connection conexao = null;
+        PreparedStatement instrucaoSQL = null;
+        
+        try {
+            conexao = GerenciadorConexao.abrirConexao();
+            instrucaoSQL = conexao.prepareStatement("UPDATE clientes "
+                    + "SET ativo = true "
+                    + "WHERE id = ?;");
+
+            instrucaoSQL.setInt(1, ativeCliente.getId());
+                        
+            instrucaoSQL.executeUpdate();
+
+            ativeCliente.setAtivo(true);
+            
+        } catch (SQLException | ClassNotFoundException ex) {
+            System.out.println(ex.getMessage());
+            ativeCliente = null;
+        } finally {
+            try {
+                if (instrucaoSQL != null) {
+                    instrucaoSQL.close();
+                }
+                GerenciadorConexao.fecharConexao();
+            } catch (SQLException ex) {
+            }
+        }
+        return ativeCliente;
     }
 }
