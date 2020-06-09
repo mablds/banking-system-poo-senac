@@ -25,14 +25,14 @@ public class ClienteDTO {
 
     @JsonCreator
     public ClienteDTO(
-        @JsonProperty("id") int id, 
-        @JsonProperty("registro") String registro, 
-        @JsonProperty("nome") String nome, 
-        @JsonProperty("telefone") String telefone,
-        @JsonProperty("email") String email,
-        @JsonProperty("endereco") String endereco,
-        @JsonProperty("tipo") int tipo,
-        @JsonProperty("ativo") boolean ativo
+            @JsonProperty("id") int id,
+            @JsonProperty("registro") String registro,
+            @JsonProperty("nome") String nome,
+            @JsonProperty("telefone") String telefone,
+            @JsonProperty("email") String email,
+            @JsonProperty("endereco") String endereco,
+            @JsonProperty("tipo") int tipo,
+            @JsonProperty("ativo") boolean ativo
     ) {
         this.id = id;
         this.registro = registro;
@@ -43,11 +43,11 @@ public class ClienteDTO {
         this.tipo = tipo;
         this.ativo = ativo;
     }
-    
+
     public void setId(int id) {
         this.id = id;
     }
-    
+
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
     }

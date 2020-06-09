@@ -5,6 +5,9 @@
  */
 package model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  *
  * @author Marcelo
@@ -14,14 +17,29 @@ public class PessoaFisica extends Cliente {
     private String nome;
     private String cpf;
 
-    public PessoaFisica(String nome, String cpf, String email, String endereco, String telefone, boolean ativo) {
-        super(email, endereco, telefone, ativo);
+    @JsonCreator
+    public PessoaFisica(
+            @JsonProperty("id") int id,
+            @JsonProperty("registro") String cpf,
+            @JsonProperty("nome") String nome,
+            @JsonProperty("telefone") String telefone,
+            @JsonProperty("email") String email,
+            @JsonProperty("id") String endereco,
+            @JsonProperty("id") int tipo, boolean ativo) {
+        super(id, email, endereco, telefone, tipo, ativo);
         this.nome = nome;
         this.cpf = cpf;
     }
 
-    public PessoaFisica(String nome, String cpf, int id, String email, String endereco, String telefone, boolean ativo) {
-        super(id, email, endereco, telefone, ativo);
+    @JsonCreator
+    public PessoaFisica(
+            @JsonProperty("registro") String cpf,
+            @JsonProperty("nome") String nome,
+            @JsonProperty("telefone") String telefone,
+            @JsonProperty("email") String email,
+            @JsonProperty("id") String endereco,
+            @JsonProperty("id") int tipo, boolean ativo) {
+        super(email, endereco, telefone, tipo, ativo);
         this.nome = nome;
         this.cpf = cpf;
     }

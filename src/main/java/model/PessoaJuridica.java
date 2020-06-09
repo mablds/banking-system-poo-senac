@@ -14,14 +14,14 @@ public class PessoaJuridica extends Cliente {
     private String nomeFantasia;
     private String cnpj;
 
-    public PessoaJuridica(String nomeFantasia, String cnpj, String email, String endereco, String telefone, boolean ativo) {
-        super(email, endereco, telefone, ativo);
+    public PessoaJuridica(int id, String cnpj, String nomeFantasia, String telefone, String email, String endereco, int tipo, boolean ativo) {
+        super(id, email, endereco, telefone, tipo, ativo);
         this.nomeFantasia = nomeFantasia;
         this.cnpj = cnpj;
     }
 
-    public PessoaJuridica(String nomeFantasia, String cnpj, int id, String email, String endereco, String telefone, boolean ativo) {
-        super(id, email, endereco, telefone, ativo);
+    public PessoaJuridica(String cnpj, String nomeFantasia, String telefone, String email, String endereco, int tipo, boolean ativo) {
+        super(email, endereco, telefone, tipo, ativo);
         this.nomeFantasia = nomeFantasia;
         this.cnpj = cnpj;
     }

@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Cliente;
+import model.PessoaFisica;
+import model.PessoaJuridica;
 import utils.GerenciadorConexao;
 
 /**
@@ -22,11 +25,12 @@ import utils.GerenciadorConexao;
  * @author Sakemi
  */
 public class ClienteDAO {
+
     public static ClienteDTO cadastrar(ClienteDTO newCliente) {
         Connection conexao = null;
         PreparedStatement instrucaoSQL = null;
         ResultSet rs = null;
-        
+
         try {
             conexao = GerenciadorConexao.abrirConexao();
             instrucaoSQL = conexao.prepareStatement("INSERT INTO clientes "
@@ -41,16 +45,16 @@ public class ClienteDAO {
             instrucaoSQL.setString(5, newCliente.getEndereco());
             instrucaoSQL.setInt(6, newCliente.getTipo());
             instrucaoSQL.setBoolean(7, newCliente.isAtivo());
-                        
+
             instrucaoSQL.executeUpdate();
 
             rs = instrucaoSQL.getGeneratedKeys();
             rs.next();
-            
+
             int clienteId = rs.getInt(1);
-            
+
             newCliente.setId(clienteId);
-            
+
         } catch (SQLException | ClassNotFoundException ex) {
             System.out.println(ex.getMessage());
             newCliente = null;
@@ -66,8 +70,8 @@ public class ClienteDAO {
         return newCliente;
     }
 
-    public static List<ClienteDTO> listarClientes() {
-        List<ClienteDTO> clientes = new ArrayList<>();
+    public static List<Cliente> listarClientes() {
+        List<Cliente> clientes = new ArrayList<>();
         Connection conexao;
         PreparedStatement instrucaoSQL = null;
 
@@ -86,7 +90,12 @@ public class ClienteDAO {
                 int tipo = rs.getInt("tipo");
                 boolean ativo = rs.getBoolean("ativo");
 
-                clientes.add(new ClienteDTO(id, registro, nome, telefone, email, endereco, tipo, ativo));
+                if (tipo == 1) {
+                    clientes.add(new PessoaFisica(id, registro, nome, telefone, email, endereco, tipo, ativo));
+                } else {
+                    clientes.add(new PessoaJuridica(id, registro, nome, telefone, email, endereco, tipo, ativo));
+                }
+
             }
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -110,10 +119,10 @@ public class ClienteDAO {
         return clientes;
     }
 
-    public static ClienteDTO buscarCliente(int id) {
+    public static Cliente buscarCliente(int id) {
         Connection conexao = null;
         PreparedStatement instrucaoSQL = null;
-        ClienteDTO clienteEncontrado = null;
+        Cliente clienteEncontrado = null;
 
         try {
             conexao = GerenciadorConexao.abrirConexao();
@@ -121,8 +130,8 @@ public class ClienteDAO {
             instrucaoSQL.setInt(1, id);
 
             ResultSet rs = instrucaoSQL.executeQuery();
-            
-            while(rs.next()){
+
+            while (rs.next()) {
                 int idCliente = rs.getInt("id");
                 String registro = rs.getString("registro");
                 String nome = rs.getString("nome");
@@ -131,10 +140,15 @@ public class ClienteDAO {
                 String endereco = rs.getString("endereco");
                 int tipo = rs.getInt("tipo");
                 boolean ativo = rs.getBoolean("ativo");
-                
-                clienteEncontrado = new ClienteDTO(idCliente, registro, nome, telefone, email, endereco, tipo, ativo);
+
+                if (tipo == 1) {
+                    clienteEncontrado = new PessoaFisica(idCliente, registro, nome, telefone, email, endereco, tipo, ativo);
+                } else {
+                    clienteEncontrado = new PessoaJuridica(idCliente, registro, nome, telefone, email, endereco, tipo, ativo);
+                }
+
             }
-            
+
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -156,11 +170,11 @@ public class ClienteDAO {
         }
         return clienteEncontrado;
     }
-    
+
     public static ClienteDTO alterar(ClienteDTO updateCliente) {
         Connection conexao = null;
         PreparedStatement instrucaoSQL = null;
-        
+
         try {
             conexao = GerenciadorConexao.abrirConexao();
             instrucaoSQL = conexao.prepareStatement("UPDATE clientes "
@@ -175,9 +189,9 @@ public class ClienteDAO {
             instrucaoSQL.setInt(6, updateCliente.getTipo());
             instrucaoSQL.setBoolean(7, updateCliente.isAtivo());
             instrucaoSQL.setInt(8, updateCliente.getId());
-                        
+
             instrucaoSQL.executeUpdate();
-            
+
         } catch (SQLException | ClassNotFoundException ex) {
             System.out.println(ex.getMessage());
             updateCliente = null;
@@ -192,24 +206,24 @@ public class ClienteDAO {
         }
         return updateCliente;
     }
-    
-    public static boolean deletar(ClienteDTO deleteCliente) {
+
+    public static boolean deletar(ClienteDTO cliente) {
         Connection conexao = null;
         PreparedStatement instrucaoSQL = null;
         boolean retorno = false;
-        
+
         try {
             conexao = GerenciadorConexao.abrirConexao();
             instrucaoSQL = conexao.prepareStatement("UPDATE clientes "
                     + "SET ativo = false "
                     + "WHERE id = ?;");
 
-            instrucaoSQL.setInt(1, deleteCliente.getId());
-                        
+            instrucaoSQL.setInt(1, cliente.getId());
+
             instrucaoSQL.executeUpdate();
-            
+
             retorno = true;
-            
+
         } catch (SQLException | ClassNotFoundException ex) {
             System.out.println(ex.getMessage());
             retorno = false;
@@ -224,11 +238,11 @@ public class ClienteDAO {
         }
         return retorno;
     }
-    
+
     public static ClienteDTO ativar(ClienteDTO ativeCliente) {
         Connection conexao = null;
         PreparedStatement instrucaoSQL = null;
-        
+
         try {
             conexao = GerenciadorConexao.abrirConexao();
             instrucaoSQL = conexao.prepareStatement("UPDATE clientes "
@@ -236,11 +250,11 @@ public class ClienteDAO {
                     + "WHERE id = ?;");
 
             instrucaoSQL.setInt(1, ativeCliente.getId());
-                        
+
             instrucaoSQL.executeUpdate();
 
             ativeCliente.setAtivo(true);
-            
+
         } catch (SQLException | ClassNotFoundException ex) {
             System.out.println(ex.getMessage());
             ativeCliente = null;

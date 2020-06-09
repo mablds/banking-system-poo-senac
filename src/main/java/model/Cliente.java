@@ -15,21 +15,32 @@ public abstract class Cliente {
     private String email;
     private String endereco;
     private String telefone;
+    private int tipo;
     private boolean ativo;
 
-    public Cliente(int id, String email, String endereco, String telefone, boolean ativo) {
+    public Cliente(int id, String email, String endereco, String telefone, int tipo, boolean ativo) {
         this.id = id;
         this.email = email;
         this.endereco = endereco;
         this.telefone = telefone;
+        this.tipo = tipo;
         this.ativo = ativo;
     }
 
-    public Cliente(String email, String endereco, String telefone, boolean ativo) {
+    public Cliente(String email, String endereco, String telefone, int tipo, boolean ativo) {
         this.email = email;
         this.endereco = endereco;
         this.telefone = telefone;
+        this.tipo = tipo;
         this.ativo = ativo;
+    }
+
+    public int getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
     }
 
     public int getId() {
