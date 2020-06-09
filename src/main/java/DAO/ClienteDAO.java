@@ -108,7 +108,41 @@ public class ClienteDAO {
             }
         }
         return clientes;
-
     }
 
+    public static ClienteDTO alterar(ClienteDTO updateCliente) {
+        Connection conexao = null;
+        PreparedStatement instrucaoSQL = null;
+        
+        try {
+            conexao = GerenciadorConexao.abrirConexao();
+            instrucaoSQL = conexao.prepareStatement("UPDATE clientes "
+                    + "SET registro = ?, nome = ?, telefone = ?, email = ?, endereco = ?, tipo = ?, ativo = ? "
+                    + "WHERE id = ?;");
+
+            instrucaoSQL.setString(1, updateCliente.getRegistro());
+            instrucaoSQL.setString(2, updateCliente.getNome());
+            instrucaoSQL.setString(3, updateCliente.getTelefone());
+            instrucaoSQL.setString(4, updateCliente.getEmail());
+            instrucaoSQL.setString(5, updateCliente.getEndereco());
+            instrucaoSQL.setInt(6, updateCliente.getTipo());
+            instrucaoSQL.setBoolean(7, updateCliente.isAtivo());
+            instrucaoSQL.setInt(8, updateCliente.getId());
+                        
+            instrucaoSQL.executeUpdate();
+            
+        } catch (SQLException | ClassNotFoundException ex) {
+            System.out.println(ex.getMessage());
+            updateCliente = null;
+        } finally {
+            try {
+                if (instrucaoSQL != null) {
+                    instrucaoSQL.close();
+                }
+                GerenciadorConexao.fecharConexao();
+            } catch (SQLException ex) {
+            }
+        }
+        return updateCliente;
+    }
 }

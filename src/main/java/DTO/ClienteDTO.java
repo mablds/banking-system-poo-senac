@@ -15,7 +15,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ClienteDTO {
 
     private int id;
-
     private final String registro;
     private final String nome;
     private final String telefone;
@@ -26,6 +25,7 @@ public class ClienteDTO {
 
     @JsonCreator
     public ClienteDTO(
+        @JsonProperty("id") int id, 
         @JsonProperty("registro") String registro, 
         @JsonProperty("nome") String nome, 
         @JsonProperty("telefone") String telefone,
@@ -34,16 +34,6 @@ public class ClienteDTO {
         @JsonProperty("tipo") int tipo,
         @JsonProperty("ativo") boolean ativo
     ) {
-        this.registro = registro;
-        this.nome = nome;
-        this.telefone = telefone;
-        this.email = email;
-        this.endereco = endereco;
-        this.tipo = tipo;
-        this.ativo = ativo;
-    }
-    
-    public ClienteDTO(int id, String registro, String nome, String telefone, String email, String endereco, int tipo, boolean ativo) {
         this.id = id;
         this.registro = registro;
         this.nome = nome;

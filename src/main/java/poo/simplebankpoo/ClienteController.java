@@ -10,6 +10,7 @@ import DTO.ClienteDTO;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,7 +29,13 @@ public class ClienteController {
 
     @PostMapping("/cliente/create")
     public ClienteDTO createCliente(@RequestBody ClienteDTO newCliente) {
-        ClienteDTO userCreated = ClienteDAO.cadastrar(newCliente);
-        return userCreated;
+        ClienteDTO clienteCreated = ClienteDAO.cadastrar(newCliente);
+        return clienteCreated;
+    }
+    
+    @PutMapping("/cliente/update")
+    public ClienteDTO updateCliente(@RequestBody ClienteDTO updateCliente) {
+        ClienteDTO clienteUpdated = ClienteDAO.alterar(updateCliente);
+        return clienteUpdated;
     }
 }
