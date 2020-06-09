@@ -5,13 +5,17 @@
  */
 package DTO;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  *
  * @author Sakemi
  */
 public class ClienteDTO {
 
-    private final int id;
+    private int id;
+
     private final String registro;
     private final String nome;
     private final String telefone;
@@ -20,6 +24,25 @@ public class ClienteDTO {
     private final int tipo;
     private final boolean ativo;
 
+    @JsonCreator
+    public ClienteDTO(
+        @JsonProperty("registro") String registro, 
+        @JsonProperty("nome") String nome, 
+        @JsonProperty("telefone") String telefone,
+        @JsonProperty("email") String email,
+        @JsonProperty("endereco") String endereco,
+        @JsonProperty("tipo") int tipo,
+        @JsonProperty("ativo") boolean ativo
+    ) {
+        this.registro = registro;
+        this.nome = nome;
+        this.telefone = telefone;
+        this.email = email;
+        this.endereco = endereco;
+        this.tipo = tipo;
+        this.ativo = ativo;
+    }
+    
     public ClienteDTO(int id, String registro, String nome, String telefone, String email, String endereco, int tipo, boolean ativo) {
         this.id = id;
         this.registro = registro;
@@ -29,6 +52,10 @@ public class ClienteDTO {
         this.endereco = endereco;
         this.tipo = tipo;
         this.ativo = ativo;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getId() {
