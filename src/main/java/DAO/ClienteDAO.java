@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Cliente;
+import model.Credencial;
 import model.PessoaFisica;
 import model.PessoaJuridica;
 import utils.GerenciadorConexao;
@@ -29,10 +30,13 @@ public class ClienteDAO {
     public static ClienteDTO cadastrar(ClienteDTO newCliente) {
         Connection conexao = null;
         PreparedStatement instrucaoSQL = null;
+        PreparedStatement instrucaoSQL2 = null;
         ResultSet rs = null;
 
         try {
             conexao = GerenciadorConexao.abrirConexao();
+            conexao.setAutoCommit(false);
+            
             instrucaoSQL = conexao.prepareStatement("INSERT INTO clientes "
                     + "(registro, nome, telefone, email, endereco, tipo, ativo) "
                     + "VALUES(?, ?, ?, ?, ?, ?, ?);",
@@ -52,9 +56,22 @@ public class ClienteDAO {
             rs.next();
 
             int clienteId = rs.getInt(1);
-
             newCliente.setId(clienteId);
+            
+            Credencial newCred = new Credencial(clienteId, newCliente.getUsuario(), newCliente.getPassword());
+            
+            instrucaoSQL2 = conexao.prepareStatement("INSERT INTO credenciais "
+                    + "(id_cliente, usuario, senha) "
+                    + "VALUES(?, ?, ?);");
 
+            instrucaoSQL2.setInt(1, newCred.getIdCliente());
+            instrucaoSQL2.setString(2, newCred.getUsuario());
+            instrucaoSQL2.setString(3, newCred.getPassword());
+                        
+            instrucaoSQL2.executeUpdate();
+            
+            newCliente.setPassword("******");
+            
         } catch (SQLException | ClassNotFoundException ex) {
             System.out.println(ex.getMessage());
             newCliente = null;
@@ -63,6 +80,13 @@ public class ClienteDAO {
                 if (instrucaoSQL != null) {
                     instrucaoSQL.close();
                 }
+                
+                if(instrucaoSQL2 != null) {
+                    instrucaoSQL2.close();
+                }
+                
+                conexao.setAutoCommit(true);
+                
                 GerenciadorConexao.fecharConexao();
             } catch (SQLException ex) {
             }

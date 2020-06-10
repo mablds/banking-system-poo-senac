@@ -20,6 +20,8 @@ public class ClienteDTO {
     private final String telefone;
     private final String email;
     private final String endereco;
+    private final String usuario;
+    private String password;
     private final int tipo;
     private boolean ativo;
 
@@ -31,6 +33,8 @@ public class ClienteDTO {
             @JsonProperty("telefone") String telefone,
             @JsonProperty("email") String email,
             @JsonProperty("endereco") String endereco,
+            @JsonProperty("usuario") String usuario,
+            @JsonProperty("password") String password,
             @JsonProperty("tipo") int tipo,
             @JsonProperty("ativo") boolean ativo
     ) {
@@ -40,12 +44,26 @@ public class ClienteDTO {
         this.telefone = telefone;
         this.email = email;
         this.endereco = endereco;
+        this.usuario = usuario;
+        this.password = password;
         this.tipo = tipo;
         this.ativo = ativo;
     }
 
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setAtivo(boolean ativo) {
