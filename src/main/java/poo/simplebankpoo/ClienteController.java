@@ -9,6 +9,7 @@ import DAO.ClienteDAO;
 import DTO.ClienteDTO;
 import java.util.List;
 import model.Cliente;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author Sakemi
  */
+@CrossOrigin
 @RestController
 public class ClienteController {
 
