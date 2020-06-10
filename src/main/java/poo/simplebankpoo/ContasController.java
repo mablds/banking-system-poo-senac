@@ -56,21 +56,33 @@ public class ContasController {
         return clienteCreated;
     }
     
-    @PutMapping("/conta/update")
-    public Conta updateConta(@RequestBody Conta updateConta) {
+    @PutMapping("/conta/update/pf")
+    public Conta updateContaPf(@RequestBody ContaPessoaFisica updateConta) {
         Conta clienteUpdated = ContasDAO.alterar(updateConta);
         return clienteUpdated;
     }
     
-    @PutMapping("/conta/delete") //Fizemos como PUT porque apenas iremos alterar a propriedade de ativo no banco para false.
-    public boolean deleteConta(@RequestBody Conta deleteConta) {
-        boolean clienteDeleted = ContasDAO.deletar(deleteConta);
+    @PutMapping("/conta/update/pj")
+    public Conta updateContaPj(@RequestBody ContaJuridica updateConta) {
+        Conta clienteUpdated = ContasDAO.alterar(updateConta);
+        return clienteUpdated;
+    }
+    
+    @PutMapping("/conta/update/pp")
+    public Conta updateContaPp(@RequestBody ContaPoupanca updateConta) {
+        Conta clienteUpdated = ContasDAO.alterar(updateConta);
+        return clienteUpdated;
+    }
+    
+    @PutMapping("/conta/delete/{id}") //Fizemos como PUT porque apenas iremos alterar a propriedade de ativo no banco para false.
+    public boolean deleteConta(@PathVariable int id) {
+        boolean clienteDeleted = ContasDAO.deletar(id);
         return clienteDeleted;
     }
     
-    @PutMapping("/conta/ativar") //Fizemos como PUT porque apenas iremos alterar a propriedade de ativo no banco para true.
-    public Conta ativarConta(@RequestBody Conta ativeConta) {
-        Conta clienteActivated = ContasDAO.ativar(ativeConta);
+    @PutMapping("/conta/ativar/{id}") //Fizemos como PUT porque apenas iremos alterar a propriedade de ativo no banco para true.
+    public boolean ativarConta(@PathVariable int id) {
+        boolean clienteActivated = ContasDAO.ativar(id);
         return clienteActivated;
     }
 }

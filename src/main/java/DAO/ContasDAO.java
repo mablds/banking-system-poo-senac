@@ -79,7 +79,8 @@ public class ContasDAO {
         try {
             conexao = GerenciadorConexao.abrirConexao();
             instrucaoSQL = conexao.prepareStatement("SELECT contas.id , clientes.nome AS nome_cliente, clientes.registro, contas.criacao, contas.saldo, contas.tipo, contas.ativo FROM contas "
-                    + "INNER JOIN clientes ON contas.id_cliente = clientes.id;");
+                    + "INNER JOIN clientes ON contas.id_cliente = clientes.id "
+                    + "WHERE contas.ativo = true;");
             ResultSet rs = instrucaoSQL.executeQuery();
 
             while (rs.next()) {
@@ -172,14 +173,93 @@ public class ContasDAO {
     }
     
     public static Conta alterar(Conta updateConta) {
+        Connection conexao = null;
+        PreparedStatement instrucaoSQL = null;
+        try {
+            conexao = GerenciadorConexao.abrirConexao();
+            instrucaoSQL = conexao.prepareStatement("UPDATE contas "
+                    + "SET id_cliente = ?, criacao = ?, saldo = ?, tipo = ?, ativo = ? "
+                    + "WHERE id = ?;",
+                    Statement.RETURN_GENERATED_KEYS);
+            
+            instrucaoSQL.setInt(1, updateConta.getCliente());
+            instrucaoSQL.setString(2, updateConta.getDataCriacao());
+            instrucaoSQL.setDouble(3, updateConta.getSaldo());
+            instrucaoSQL.setInt(4, updateConta.getTipo());
+            instrucaoSQL.setBoolean(5, updateConta.isAtiva());
+            instrucaoSQL.setInt(6, updateConta.getId());
+                        
+            instrucaoSQL.executeUpdate();
+        } catch (SQLException | ClassNotFoundException ex) {
+            System.out.println(ex.getMessage());
+            updateConta = null;
+        } finally {
+            try {
+                if (instrucaoSQL != null) {
+                    instrucaoSQL.close();
+                }
+                GerenciadorConexao.fecharConexao();
+            } catch (SQLException ex) {
+            }
+        }
         return updateConta;
     } 
     
-    public static boolean deletar(Conta deleteConta) {
-        return true;
+    public static boolean deletar(int id) {
+        Connection conexao = null;
+        PreparedStatement instrucaoSQL = null;
+        boolean contaDeletada;
+        try {
+            conexao = GerenciadorConexao.abrirConexao();
+            instrucaoSQL = conexao.prepareStatement("UPDATE contas "
+                    + "SET ativo = false "
+                    + "WHERE id = ?;");
+            
+            instrucaoSQL.setInt(1, id);
+                        
+            instrucaoSQL.executeUpdate();
+            contaDeletada = true;
+        } catch (SQLException | ClassNotFoundException ex) {
+            System.out.println(ex.getMessage());
+            contaDeletada = false;
+        } finally {
+            try {
+                if (instrucaoSQL != null) {
+                    instrucaoSQL.close();
+                }
+                GerenciadorConexao.fecharConexao();
+            } catch (SQLException ex) {
+            }
+        }
+        return contaDeletada;
     }
     
-    public static Conta ativar(Conta ativarConta) {
-        return ativarConta;
+    public static boolean ativar(int id) {
+        Connection conexao = null;
+        PreparedStatement instrucaoSQL = null;
+        boolean contaAtivada;
+        try {
+            conexao = GerenciadorConexao.abrirConexao();
+            instrucaoSQL = conexao.prepareStatement("UPDATE contas "
+                    + "SET ativo = true "
+                    + "WHERE id = ?;");
+            
+            instrucaoSQL.setInt(1, id);
+                        
+            instrucaoSQL.executeUpdate();
+            contaAtivada = true;
+        } catch (SQLException | ClassNotFoundException ex) {
+            System.out.println(ex.getMessage());
+            contaAtivada = false;
+        } finally {
+            try {
+                if (instrucaoSQL != null) {
+                    instrucaoSQL.close();
+                }
+                GerenciadorConexao.fecharConexao();
+            } catch (SQLException ex) {
+            }
+        }
+        return contaAtivada;
     }
 }
