@@ -5,6 +5,8 @@
  */
 package model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
 
 /**
@@ -13,8 +15,20 @@ import java.util.Date;
  */
 public class ContaPoupanca extends Conta {
 
-    public ContaPoupanca(int id, Cliente cliente, Date dataCriacao, double saldo, boolean ativa) {
-        super(id, cliente, dataCriacao, saldo, ativa);
+    public ContaPoupanca(int id, int cliente, String dataCriacao, int tipo, double saldo, boolean ativa) {
+        super(id, cliente, dataCriacao, saldo, 3, ativa);
+    }
+
+    public ContaPoupanca(int cliente, int tipo, boolean ativa) {
+        super(cliente, 3, ativa);
+    }
+
+    @JsonCreator
+    public ContaPoupanca(
+        @JsonProperty("cliente") int cliente,
+        @JsonProperty("ativa") boolean ativa
+    ) {
+        super(cliente, 3, ativa);
     }
 
     public boolean Resgate(double valor, int idReceptor) {

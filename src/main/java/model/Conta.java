@@ -5,6 +5,8 @@
  */
 package model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
 
 /**
@@ -14,16 +16,25 @@ import java.util.Date;
 public abstract class Conta {
 
     private int id;
-    private Cliente cliente;
-    private Date dataCriacao;
+    private int cliente;
+    private String dataCriacao;
     private double saldo;
+    private int tipo;
     private boolean ativa;
-
-    public Conta(int id, Cliente cliente, Date dataCriacao, double saldo, boolean ativa) {
+    
+    public Conta(int id, int cliente, String dataCriacao, double saldo, int tipo, boolean ativa) {
         this.id = id;
         this.cliente = cliente;
         this.dataCriacao = dataCriacao;
         this.saldo = saldo;
+        this.tipo = tipo;
+        this.ativa = ativa;
+    }
+    
+    public Conta(int cliente, int tipo, boolean ativa) {
+        this.cliente = cliente;
+        this.saldo = 0.0;
+        this.tipo = tipo;
         this.ativa = ativa;
     }
 
@@ -31,23 +42,31 @@ public abstract class Conta {
         return id;
     }
 
+    public int getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
+    }
+    
     public void setId(int id) {
         this.id = id;
     }
 
-    public Cliente getCliente() {
+    public int getCliente() {
         return cliente;
     }
 
-    public void setCliente(Cliente cliente) {
+    public void setCliente(int cliente) {
         this.cliente = cliente;
     }
 
-    public Date getDataCriacao() {
+    public String getDataCriacao() {
         return dataCriacao;
     }
 
-    public void setDataCriacao(Date dataCriacao) {
+    public void setDataCriacao(String dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 

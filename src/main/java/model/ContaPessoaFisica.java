@@ -5,7 +5,8 @@
  */
 package model;
 
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  *
@@ -13,8 +14,21 @@ import java.util.Date;
  */
 public class ContaPessoaFisica extends Conta implements Operacoes {
 
-    public ContaPessoaFisica(int id, Cliente cliente, Date dataCriacao, double saldo, boolean ativa) {
-        super(id, cliente, dataCriacao, saldo, ativa);
+    public ContaPessoaFisica(int id, int cliente, String dataCriacao, int tipo, double saldo, boolean ativa) {
+        super(id, cliente, dataCriacao, saldo, 1, ativa);
+    }
+
+    public ContaPessoaFisica(int cliente, int tipo, boolean ativa) {
+        super(cliente, 1, ativa);
+    }
+
+
+    @JsonCreator
+    public ContaPessoaFisica(
+        @JsonProperty("cliente") int cliente,
+        @JsonProperty("ativa") boolean ativa
+    ) {
+        super(cliente, 1, ativa);
     }
 
     @Override

@@ -5,13 +5,16 @@
  */
 package DTO;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  *
  * @author Sakemi
  */
 public class ContasDTO {
 
-    private final int id;
+    private  int id;
     private final String nomeCliente;
     private final String registro;
     private final String criacao;
