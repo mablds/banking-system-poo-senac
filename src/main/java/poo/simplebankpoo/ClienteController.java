@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ClienteController {
 
     @GetMapping("/clientes")
-    public List<ClienteDTO> clientes() {
+    public List<Cliente> clientes() {
         List clientes = ClienteDAO.listarClientes();
         return clientes;
     }

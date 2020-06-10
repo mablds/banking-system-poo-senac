@@ -17,28 +17,13 @@ public class PessoaFisica extends Cliente {
     private String nome;
     private String cpf;
 
-    @JsonCreator
-    public PessoaFisica(
-            @JsonProperty("id") int id,
-            @JsonProperty("registro") String cpf,
-            @JsonProperty("nome") String nome,
-            @JsonProperty("telefone") String telefone,
-            @JsonProperty("email") String email,
-            @JsonProperty("id") String endereco,
-            @JsonProperty("id") int tipo, boolean ativo) {
+    public PessoaFisica(int id, String cpf, String nome, String telefone, String email, String endereco, int tipo, boolean ativo) {
         super(id, email, endereco, telefone, tipo, ativo);
         this.nome = nome;
         this.cpf = cpf;
     }
 
-    @JsonCreator
-    public PessoaFisica(
-            @JsonProperty("registro") String cpf,
-            @JsonProperty("nome") String nome,
-            @JsonProperty("telefone") String telefone,
-            @JsonProperty("email") String email,
-            @JsonProperty("id") String endereco,
-            @JsonProperty("id") int tipo, boolean ativo) {
+    public PessoaFisica(String cpf, String nome, String telefone, String email, String endereco, int tipo, boolean ativo) {
         super(email, endereco, telefone, tipo, ativo);
         this.nome = nome;
         this.cpf = cpf;
