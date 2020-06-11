@@ -15,13 +15,13 @@ public class Transferencia extends Transacao{
     private int idPagador;
     private int idReceptor;
 
-    public Transferencia(int idPagador, int idReceptor, int id, Date date, double valor) {
+    public Transferencia(int idPagador, int idReceptor, int id, String date, double valor) {
         super(id, date, valor);
         this.idPagador = idPagador;
         this.idReceptor = idReceptor;
     }
 
-    public Transferencia(int idPagador, int idReceptor, Date date, double valor) {
+    public Transferencia(int idPagador, int idReceptor, String date, double valor) {
         super(date, valor);
         this.idPagador = idPagador;
         this.idReceptor = idReceptor;

@@ -5,7 +5,8 @@
  */
 package dao;
 
-import DAO.ClienteDAO;
+import DAO.ContasDAO;
+import DTO.ContasDTO;
 import DTO.DepositoDTO;
 import DTO.SaqueDTO;
 import DTO.TransferenciaDTO;
@@ -15,9 +16,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Deposito;
+import model.Saque;
+import model.Transacao;
+import model.Transferencia;
 import utils.GerenciadorConexao;
 
 /**
@@ -224,6 +231,10 @@ public class TransacoesDAO {
                     instrucaoSQL2.close();
                 }
                 
+                if(instrucaoSQL3 != null) {
+                    instrucaoSQL3.close();
+                }
+                
                 conexao.setAutoCommit(true);
                 
                 GerenciadorConexao.fecharConexao();
@@ -233,4 +244,95 @@ public class TransacoesDAO {
         return transferenciaOk;
     }
 
+    public static List<Transacao> listarTransacoes(int id){
+        List<Transacao> relatorio = new ArrayList<>();
+        Connection conexao;
+        PreparedStatement instrucaoSQL = null;
+
+        try {
+            conexao = GerenciadorConexao.abrirConexao();
+            instrucaoSQL = conexao.prepareStatement("SELECT * FROM transacoes " 
+                    + "WHERE pago_por = ? OR receptor = ?");
+            
+            instrucaoSQL.setInt(1, id);
+            instrucaoSQL.setInt(2, id);
+            
+            ResultSet rs = instrucaoSQL.executeQuery();
+
+            while (rs.next()) {
+                int idTransacao = rs.getInt("id");
+                String trDate = rs.getString("tr_date");
+                double valor = rs.getDouble("valor");
+                String pagoPor = rs.getString("pago_por");
+                String receptor = rs.getString("receptor");
+
+                if(pagoPor != null && receptor != null) { //Transferencia
+                    //int idPagador, int idReceptor, int id, String date, double valor
+                    relatorio.add(new Transferencia(Integer.parseInt(pagoPor), Integer.parseInt(receptor), idTransacao, trDate, valor));
+                } else if(pagoPor != null) { //Saque
+                    //int idConta, int id, String date, double valor
+                    relatorio.add(new Saque(Integer.parseInt(pagoPor), idTransacao, trDate, valor * -1));
+                } else { //Deposito
+                    //int idConta, int id, String date, double valor
+                    relatorio.add(new Deposito(Integer.parseInt(receptor), idTransacao, trDate, valor));
+                }
+            }
+            
+        } catch (SQLException | ClassNotFoundException ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            try {
+                if (instrucaoSQL != null) {
+                    instrucaoSQL.close();
+                }
+                GerenciadorConexao.fecharConexao();
+            } catch (SQLException ex) {
+            }
+        }
+        return relatorio;
+    }
+    
+    public static List<Transacao> listarTodasTransacoes() {
+        List<Transacao> relatorio = new ArrayList<>();
+        Connection conexao;
+        PreparedStatement instrucaoSQL = null;
+
+        try {
+            conexao = GerenciadorConexao.abrirConexao();
+            instrucaoSQL = conexao.prepareStatement("SELECT * FROM transacoes;");
+            
+            ResultSet rs = instrucaoSQL.executeQuery();
+
+            while (rs.next()) {
+                int idTransacao = rs.getInt("id");
+                String trDate = rs.getString("tr_date");
+                double valor = rs.getDouble("valor");
+                String pagoPor = rs.getString("pago_por");
+                String receptor = rs.getString("receptor");
+
+                if(pagoPor != null && receptor != null) { //Transferencia
+                    //int idPagador, int idReceptor, int id, String date, double valor
+                    relatorio.add(new Transferencia(Integer.parseInt(pagoPor), Integer.parseInt(receptor), idTransacao, trDate, valor));
+                } else if(pagoPor != null) { //Saque
+                    //int idConta, int id, String date, double valor
+                    relatorio.add(new Saque(Integer.parseInt(pagoPor), idTransacao, trDate, valor * -1));
+                } else { //Deposito
+                    //int idConta, int id, String date, double valor
+                    relatorio.add(new Deposito(Integer.parseInt(receptor), idTransacao, trDate, valor));
+                }
+            }
+            
+        } catch (SQLException | ClassNotFoundException ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            try {
+                if (instrucaoSQL != null) {
+                    instrucaoSQL.close();
+                }
+                GerenciadorConexao.fecharConexao();
+            } catch (SQLException ex) {
+            }
+        }
+        return relatorio;
+    }
 }

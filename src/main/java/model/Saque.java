@@ -5,8 +5,6 @@
  */
 package model;
 
-import java.util.Date;
-
 /**
  *
  * @author Marcelo
@@ -14,12 +12,12 @@ import java.util.Date;
 public class Saque extends Transacao{
     private int idConta;
 
-    public Saque(int idConta, int id, Date date, double valor) {
+    public Saque(int idConta, int id, String date, double valor) {
         super(id, date, valor);
         this.idConta = idConta;
     }
 
-    public Saque(int idConta, Date date, double valor) {
+    public Saque(int idConta, String date, double valor) {
         super(date, valor);
         this.idConta = idConta;
     }

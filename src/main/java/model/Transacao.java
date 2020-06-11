@@ -5,7 +5,6 @@
  */
 package model;
 
-import java.util.Date;
 
 /**
  *
@@ -13,16 +12,16 @@ import java.util.Date;
  */
 public abstract class Transacao {
     private int id;
-    private Date date;
+    private String date;
     private double valor;
 
-    public Transacao(int id, Date date, double valor) {
+    public Transacao(int id, String date, double valor) {
         this.id = id;
         this.date = date;
         this.valor = valor;
     }
 
-    public Transacao(Date date, double valor) {
+    public Transacao(String date, double valor) {
         this.date = date;
         this.valor = valor;
     }
@@ -35,11 +34,11 @@ public abstract class Transacao {
         this.id = id;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

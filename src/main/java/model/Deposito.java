@@ -5,8 +5,6 @@
  */
 package model;
 
-import java.util.Date;
-
 /**
  *
  * @author Marcelo
@@ -14,13 +12,17 @@ import java.util.Date;
 public class Deposito extends Transacao{
     private int idConta;
 
-    public Deposito(int id, Date date, double valor) {
+    public Deposito(int idConta, int id, String date, double valor) {
         super(id, date, valor);
+        this.idConta = idConta;
     }
 
-    public Deposito(Date date, double valor) {
+    public Deposito(int idConta, String date, double valor) {
         super(date, valor);
+        this.idConta = idConta;
     }
+    
+    
     
     public int getIdConta() {
         return idConta;

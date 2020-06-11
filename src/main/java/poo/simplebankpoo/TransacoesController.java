@@ -9,7 +9,11 @@ import DTO.DepositoDTO;
 import DTO.SaqueDTO;
 import DTO.TransferenciaDTO;
 import dao.TransacoesDAO;
+import java.util.List;
+import model.Transacao;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +26,16 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 @RestController
 public class TransacoesController {
+    
+    @GetMapping("/transacoes")
+    public List<Transacao> transferencia() {
+        return TransacoesDAO.listarTodasTransacoes();
+    }
+    
+    @GetMapping("/transacoes/{id}")
+    public List<Transacao> transferencia(@PathVariable int id) {
+        return TransacoesDAO.listarTransacoes(id);
+    }
     
     @PostMapping("/transacoes/saque")
     public double saque(@RequestBody SaqueDTO saque) {
