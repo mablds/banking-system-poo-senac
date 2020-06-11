@@ -42,7 +42,7 @@ public class CredencialDAO {
             }
 
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CredencialDAO.class.getName()).log(Level.SEVERE, null, ex);
             credEncontrada = null;
         } finally {
             try {
