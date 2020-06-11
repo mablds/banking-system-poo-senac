@@ -231,7 +231,7 @@ public class ClienteDAO {
         return updateCliente;
     }
 
-    public static boolean deletar(ClienteDTO cliente) {
+    public static boolean deletar(int id) {
         Connection conexao = null;
         PreparedStatement instrucaoSQL = null;
         boolean retorno = false;
@@ -242,7 +242,7 @@ public class ClienteDAO {
                     + "SET ativo = false "
                     + "WHERE id = ?;");
 
-            instrucaoSQL.setInt(1, cliente.getId());
+            instrucaoSQL.setInt(1, id);
 
             instrucaoSQL.executeUpdate();
 
@@ -263,7 +263,7 @@ public class ClienteDAO {
         return retorno;
     }
 
-    public static ClienteDTO ativar(ClienteDTO ativeCliente) {
+    public static ClienteDTO ativar(int id) {
         Connection conexao = null;
         PreparedStatement instrucaoSQL = null;
 
@@ -273,7 +273,7 @@ public class ClienteDAO {
                     + "SET ativo = true "
                     + "WHERE id = ?;");
 
-            instrucaoSQL.setInt(1, ativeCliente.getId());
+            instrucaoSQL.setInt(1, id);
 
             instrucaoSQL.executeUpdate();
 
