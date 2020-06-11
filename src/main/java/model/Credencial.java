@@ -5,6 +5,7 @@
  */
 package model;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -72,5 +73,13 @@ public class Credencial {
         this.password = password;
     }
     
+    public String encodeSenha(String senha) {
+        return BCrypt.withDefaults().hashToString(12, senha.toCharArray());
+    }
+    
+    public boolean validarSenha(String senha) {
+        BCrypt.Result result = BCrypt.verifyer().verify(senha.toCharArray(), this.getPassword());
+        return result.verified;
+    }
     
 }

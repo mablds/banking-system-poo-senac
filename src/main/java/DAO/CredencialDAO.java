@@ -69,9 +69,8 @@ public class CredencialDAO {
         boolean credenciaisCorretas = false;
         
         if(usuarioBuscado != null && cred != null) {
-            System.out.println(usuarioBuscado.getPassword());
-            System.out.println(cred.getPassword());
-            if(usuarioBuscado.getPassword().equals(cred.getPassword())){
+            System.out.println(usuarioBuscado.encodeSenha(usuarioBuscado.getPassword()));
+            if(usuarioBuscado.validarSenha(cred.getPassword())){
                 credenciaisCorretas = true;
             }
         }
