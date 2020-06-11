@@ -7,8 +7,11 @@ package poo.simplebankpoo;
 
 import DTO.DepositoDTO;
 import DTO.SaqueDTO;
+import DTO.TransferenciaDTO;
 import dao.TransacoesDAO;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author Marcelo
  */
+@CrossOrigin
 @RestController
 public class TransacoesController {
     
@@ -27,5 +31,10 @@ public class TransacoesController {
     @PostMapping("/transacoes/deposito")
     public double deposito(@RequestBody DepositoDTO deposito) {
         return TransacoesDAO.deposito(deposito);
+    }
+    
+    @PutMapping("/transacoes/transferencia")
+    public boolean transferencia(@RequestBody TransferenciaDTO transferencia) {
+        return TransacoesDAO.transferencia(transferencia);
     }
 }

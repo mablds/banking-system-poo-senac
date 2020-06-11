@@ -7,6 +7,7 @@ package poo.simplebankpoo;
 
 import dao.CredencialDAO;
 import model.Credencial;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author Marcelo
  */
+@CrossOrigin
 @RestController
 public class CredencialController {
     

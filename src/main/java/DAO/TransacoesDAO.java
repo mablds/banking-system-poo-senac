@@ -8,6 +8,7 @@ package dao;
 import DAO.ClienteDAO;
 import DTO.DepositoDTO;
 import DTO.SaqueDTO;
+import DTO.TransferenciaDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -153,6 +154,10 @@ public class TransacoesDAO {
                     instrucaoSQL2.close();
                 }
                 
+                if(instrucaoSQL3 != null) {
+                    instrucaoSQL3.close();
+                }
+                
                 conexao.setAutoCommit(true);
                 
                 GerenciadorConexao.fecharConexao();
@@ -160,5 +165,71 @@ public class TransacoesDAO {
             }
         }
         return contaSaldo;
+    }
+    
+    public static boolean transferencia(TransferenciaDTO transferencia) {
+        Connection conexao = null;
+        PreparedStatement instrucaoSQL = null;
+        PreparedStatement instrucaoSQL2 = null;
+        PreparedStatement instrucaoSQL3 = null;
+        boolean transferenciaOk = false;
+
+        try {
+            conexao = GerenciadorConexao.abrirConexao();
+            conexao.setAutoCommit(false);
+            
+            instrucaoSQL = conexao.prepareStatement("UPDATE contas " 
+                    + "SET saldo = saldo - ? "
+                    + "WHERE id = ?;");
+            
+            instrucaoSQL.setDouble(1, transferencia.getValor());
+            instrucaoSQL.setInt(2, transferencia.getIdPagador());
+
+            instrucaoSQL.executeUpdate();
+
+            instrucaoSQL2 = conexao.prepareStatement("UPDATE contas " 
+                    + "SET saldo = saldo + ? "
+                    + "WHERE id = ?;");
+            
+            instrucaoSQL2.setDouble(1, transferencia.getValor());
+            instrucaoSQL2.setInt(2, transferencia.getIdReceptor());
+            
+            instrucaoSQL2.executeUpdate();
+            
+            instrucaoSQL3 = conexao.prepareStatement("INSERT INTO transacoes "
+                + "(tr_date, valor, pago_por, receptor) "
+                + "VALUES (?, ?, ?, ?); ");
+            
+            Date now = new Date();
+            
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            
+            instrucaoSQL3.setString(1, formatter.format(now));
+            instrucaoSQL3.setDouble(2, transferencia.getValor());
+            instrucaoSQL3.setInt(3, transferencia.getIdPagador());
+            instrucaoSQL3.setInt(4, transferencia.getIdReceptor());
+            
+            instrucaoSQL3.executeUpdate();
+            
+            transferenciaOk = true;
+        } catch (SQLException | ClassNotFoundException ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            try {
+                if (instrucaoSQL != null) {
+                    instrucaoSQL.close();
+                }
+                
+                if(instrucaoSQL2 != null) {
+                    instrucaoSQL2.close();
+                }
+                
+                conexao.setAutoCommit(true);
+                
+                GerenciadorConexao.fecharConexao();
+            } catch (SQLException ex) {
+            }
+        }
+        return transferenciaOk;
     }
 }
