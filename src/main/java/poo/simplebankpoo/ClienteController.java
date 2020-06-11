@@ -49,15 +49,15 @@ public class ClienteController {
         return clienteUpdated;
     }
 
-    @PutMapping("/cliente/delete") //Fizemos como PUT porque apenas iremos alterar a propriedade de ativo no banco para false.
-    public boolean deleteCliente(@RequestBody ClienteDTO cliente) {
-        boolean clienteDeleted = ClienteDAO.deletar(cliente);
+    @PutMapping("/cliente/delete/{id}") //Fizemos como PUT porque apenas iremos alterar a propriedade de ativo no banco para false.
+    public boolean deleteCliente(@PathVariable int id) {
+        boolean clienteDeleted = ClienteDAO.deletar(id);
         return clienteDeleted;
     }
 
-    @PutMapping("/cliente/ativar") //Fizemos como PUT porque apenas iremos alterar a propriedade de ativo no banco para true.
-    public ClienteDTO ativarCliente(@RequestBody ClienteDTO ativeCliente) {
-        ClienteDTO clienteActivated = ClienteDAO.ativar(ativeCliente);
+    @PutMapping("/cliente/ativar/{id}") //Fizemos como PUT porque apenas iremos alterar a propriedade de ativo no banco para true.
+    public ClienteDTO ativarCliente(@PathVariable int id) {
+        ClienteDTO clienteActivated = ClienteDAO.ativar(id);
         return clienteActivated;
     }
 }
