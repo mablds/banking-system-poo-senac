@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 @RestController
 public class ContasController {
-
+    
     @GetMapping("/contas")
     public List<ContasDTO> contas() {
         List contas = ContasDAO.listarContas();

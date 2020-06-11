@@ -9,37 +9,41 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Credencial;
 import utils.GerenciadorConexao;
+
 
 /**
  *
  * @author Marcelo
  */
 public class CredencialDAO {
-    public static boolean cadastrar(Credencial cred) {
+    public static Credencial buscarCredencial(String usuario) {
         Connection conexao = null;
         PreparedStatement instrucaoSQL = null;
-        boolean credencialCriada;
+        Credencial credEncontrada = null;
+
         try {
             conexao = GerenciadorConexao.abrirConexao();
-            instrucaoSQL = conexao.prepareStatement("INSERT INTO credenciais "
-                    + "(id_cliente, usuario, senha) "
-                    + "VALUES(?, ?, ?);");
+            instrucaoSQL = conexao.prepareStatement("SELECT * FROM credenciais WHERE usuario = ?;");
+            instrucaoSQL.setString(1, usuario);
 
-            instrucaoSQL.setInt(1, cred.getIdCliente());
-            instrucaoSQL.setString(2, cred.getUsuario());
-            instrucaoSQL.setString(3, cred.getPassword());
-                        
-            instrucaoSQL.executeUpdate();
-            
-            credencialCriada = true;
+            ResultSet rs = instrucaoSQL.executeQuery();
+
+            while (rs.next()) {
+                int idCred = rs.getInt("id");
+                int idCliente = rs.getInt("id_cliente");
+                String usuarioDb = rs.getString("usuario");
+                String senha = rs.getString("senha");
+                
+                credEncontrada = new Credencial(idCred, idCliente, usuarioDb, senha);
+            }
+
         } catch (SQLException | ClassNotFoundException ex) {
-            System.out.println(ex.getMessage());
-            credencialCriada = false;
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+            credEncontrada = null;
         } finally {
             try {
                 if (instrucaoSQL != null) {
@@ -47,8 +51,31 @@ public class CredencialDAO {
                 }
                 GerenciadorConexao.fecharConexao();
             } catch (SQLException ex) {
+            } finally {
+                try {
+                    if (instrucaoSQL != null) {
+                        instrucaoSQL.close();
+                    }
+                    GerenciadorConexao.fecharConexao();
+                } catch (SQLException ex) {
+                }
             }
         }
-        return credencialCriada;
+        return credEncontrada;
+    }
+    
+    public static boolean checkLogin(Credencial cred) {
+        Credencial usuarioBuscado = buscarCredencial(cred.getUsuario());
+        boolean credenciaisCorretas = false;
+        
+        if(usuarioBuscado != null && cred != null) {
+            System.out.println(usuarioBuscado.getPassword());
+            System.out.println(cred.getPassword());
+            if(usuarioBuscado.getPassword().equals(cred.getPassword())){
+                credenciaisCorretas = true;
+            }
+        }
+        
+        return credenciaisCorretas;
     }
 }

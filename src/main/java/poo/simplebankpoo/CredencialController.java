@@ -5,18 +5,23 @@
  */
 package poo.simplebankpoo;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import dao.CredencialDAO;
+import model.Credencial;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
  * @author Marcelo
  */
+@CrossOrigin
 @RestController
 public class CredencialController {
+    
     @PostMapping("/auth")
-    public boolean checkCredentials() {
-        return true;
+    public boolean checkCredentials(@RequestBody Credencial cred) {
+        return CredencialDAO.checkLogin(cred);
     }
 }
