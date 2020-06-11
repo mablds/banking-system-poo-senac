@@ -56,8 +56,7 @@ public class ClienteController {
     }
 
     @PutMapping("/cliente/ativar/{id}") //Fizemos como PUT porque apenas iremos alterar a propriedade de ativo no banco para true.
-    public ClienteDTO ativarCliente(@PathVariable int id) {
-        ClienteDTO clienteActivated = ClienteDAO.ativar(id);
-        return clienteActivated;
+    public boolean ativarCliente(@PathVariable int id) {
+        return ClienteDAO.ativar(id);
     }
 }

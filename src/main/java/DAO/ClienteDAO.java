@@ -263,10 +263,11 @@ public class ClienteDAO {
         return retorno;
     }
 
-    public static ClienteDTO ativar(int id) {
+    public static boolean ativar(int id) {
         Connection conexao = null;
         PreparedStatement instrucaoSQL = null;
-
+        boolean contaAtiva = false;
+        
         try {
             conexao = GerenciadorConexao.abrirConexao();
             instrucaoSQL = conexao.prepareStatement("UPDATE clientes "
@@ -277,11 +278,11 @@ public class ClienteDAO {
 
             instrucaoSQL.executeUpdate();
 
-            ativeCliente.setAtivo(true);
+            contaAtiva = true;
 
         } catch (SQLException | ClassNotFoundException ex) {
             System.out.println(ex.getMessage());
-            ativeCliente = null;
+            contaAtiva = false;
         } finally {
             try {
                 if (instrucaoSQL != null) {
@@ -291,6 +292,6 @@ public class ClienteDAO {
             } catch (SQLException ex) {
             }
         }
-        return ativeCliente;
+        return contaAtiva;
     }
 }
