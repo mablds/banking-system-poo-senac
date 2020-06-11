@@ -63,11 +63,11 @@ public class ClienteDAO {
             instrucaoSQL2 = conexao.prepareStatement("INSERT INTO credenciais "
                     + "(id_cliente, usuario, senha) "
                     + "VALUES(?, ?, ?);");
-
+            
             instrucaoSQL2.setInt(1, newCred.getIdCliente());
             instrucaoSQL2.setString(2, newCred.getUsuario());
-            instrucaoSQL2.setString(3, newCred.getPassword());
-                        
+            instrucaoSQL2.setString(3, newCred.encodeSenha(newCred.getPassword()));
+            System.out.println(newCred.encodeSenha(newCred.getPassword()));
             instrucaoSQL2.executeUpdate();
             
             newCliente.setPassword("******");
