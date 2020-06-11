@@ -5,6 +5,9 @@
  */
 package model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  *
  * @author Marcelo
@@ -15,14 +18,18 @@ public class Credencial {
     private String usuario;
     private String password;
 
-    public Credencial(int id, int idCliente, String usuario, String password) {
-        this.id = id;
-        this.idCliente = idCliente;
+    @JsonCreator
+    public Credencial(
+        @JsonProperty("usuario") String usuario,
+        @JsonProperty("password") String password
+    ) {
         this.usuario = usuario;
         this.password = password;
     }
-
-    public Credencial(String usuario, String password) {
+    
+    public Credencial(int id, int idCliente, String usuario, String password) {
+        this.id = id;
+        this.idCliente = idCliente;
         this.usuario = usuario;
         this.password = password;
     }
